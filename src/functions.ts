@@ -20,7 +20,7 @@ export function add3(first: number, second: number, third: number): number {
         sum = sum + second;
     }
     if (third > 0) {
-        sum = sum + second;
+        sum = sum + third;
     }
     return sum;
 }
