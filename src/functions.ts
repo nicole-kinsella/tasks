@@ -39,6 +39,7 @@ export function shout(message: string): string {
  * mark. Do not use an `if` statement in solving this question.
  */
 export function isQuestion(message: string): boolean {
+    // This will return true if the expression is true
     return message.endsWith("?");
 }
 
