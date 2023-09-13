@@ -57,3 +57,17 @@ describe("Testing the basic functions", () => {
         expect(convertYesNo("Maybe")).toBe(null);
     });
 });
+
+describe("Testing the in class functions", () => {
+    test("Testing the fahrenheitToCelius function", () => {
+        expect(fahrenheitToCelius(32)).toBe(0);
+    });
+
+    test("Testing the add3 function", () => {
+        expect(add3(1, 2, 3)).toBe(6);
+    });
+
+    test("Testing the Shocked Question function", () => {
+        expect(shout("Hello")).toBe("HELLO!");
+    });
+});
