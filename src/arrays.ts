@@ -43,8 +43,11 @@ export function stringsToIntegers(numbers: string[]): number[] {
  */
 // Remember, you can write functions as lambdas too! They work exactly the same.
 export const removeDollars = (amounts: string[]): number[] => {
-    const newAmount = amounts.map((amountStr: string): number =>
-        Number.isNaN(Number(amountStr.replace("$", ""))) ? 0 : Number(amountStr)
+    const noSign = amounts.map((amountStr: string): string =>
+        amountStr.replace("$", "")
+    );
+    const newAmount = noSign.map((amountStr: string): number =>
+        Number.isNaN(Number(amountStr)) ? 0 : Number(amountStr)
     );
     return newAmount;
 };
@@ -69,7 +72,8 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
  * 4 letters long.
  */
 export function countShortWords(words: string[]): number {
-    return 0;
+    const shortWords = words.filter((word: string): boolean => word.length < 4);
+    return shortWords.length;
 }
 
 /**
@@ -78,7 +82,11 @@ export function countShortWords(words: string[]): number {
  * then return true.
  */
 export function allRGB(colors: string[]): boolean {
-    return false;
+    const isRGBcolor = colors.every(
+        (color: string): boolean =>
+            color === "red" || color === "blue" || color === "green"
+    );
+    return isRGBcolor;
 }
 
 /**
