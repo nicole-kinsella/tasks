@@ -1,6 +1,6 @@
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
-import { makeBlankQuestion } from "./objects";
+import { duplicateQuestion, makeBlankQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -288,7 +288,40 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string
 ): Question[] {
-    return [];
+    const deepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    const editedArr1 = deepCopy.map(
+        (question: Question): Question =>
+            question.id === targetId && targetOptionIndex === -1
+                ? { ...question, options: [...question.options, newOption] }
+                : question
+    );
+    const editedArr2 = editedArr1.map(
+        (question: Question): Question =>
+            question.id === targetId && targetOptionIndex > 0
+                ? {
+                      ...question,
+                      options: [
+                          ...question.options.splice(
+                              targetOptionIndex,
+                              1,
+                              newOption
+                          )
+                      ]
+                  }
+                : question
+    );
+    const editedArr3 = editedArr1.map(
+        (question: Question): Question =>
+            question.id === targetId && targetOptionIndex === 0
+                ? {
+                      ...question,
+                      options: [newOption, ...question.options.slice(1)]
+                  }
+                : question
+    );
+    return editedArr3;
 }
 
 /***
@@ -302,5 +335,24 @@ export function duplicateQuestionInArray(
     targetId: number,
     newId: number
 ): Question[] {
-    return [];
+    const deepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    const duplicatedQuestionsArr = deepCopy.reduce(
+        (newArr: Question[], question: Question) => {
+            if (question.id === targetId) {
+                newArr = [
+                    ...newArr,
+                    question,
+                    duplicateQuestion(newId, question)
+                ];
+                return newArr;
+            } else {
+                newArr = [...newArr, question];
+                return newArr;
+            }
+        },
+        []
+    );
+    return duplicatedQuestionsArr;
 }
