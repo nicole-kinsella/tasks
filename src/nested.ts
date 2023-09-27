@@ -291,37 +291,43 @@ export function editOption(
     const deepCopy = questions.map(
         (question: Question): Question => ({ ...question })
     );
-    const editedArr1 = deepCopy.map(
-        (question: Question): Question =>
-            question.id === targetId && targetOptionIndex === -1
-                ? { ...question, options: [...question.options, newOption] }
-                : question
-    );
-    const editedArr2 = editedArr1.map(
-        (question: Question): Question =>
-            question.id === targetId && targetOptionIndex > 0
-                ? {
-                      ...question,
-                      options: [
-                          ...question.options.splice(
-                              targetOptionIndex,
-                              1,
-                              newOption
-                          )
-                      ]
-                  }
-                : question
-    );
-    const editedArr3 = editedArr1.map(
-        (question: Question): Question =>
-            question.id === targetId && targetOptionIndex === 0
-                ? {
-                      ...question,
-                      options: [newOption, ...question.options.slice(1)]
-                  }
-                : question
-    );
-    return editedArr3;
+    const editedArr1 = deepCopy.map((question: Question): Question => {
+        if (question.id === targetId) {
+            if (targetOptionIndex === -1) {
+                const optionAtEnd = {
+                    ...question,
+                    options: [...question.options, newOption]
+                };
+                return optionAtEnd;
+            } else if (targetOptionIndex >= 1) {
+                const optionReplaceMiddle = {
+                    ...question,
+                    options: [
+                        ...question.options.splice(
+                            targetOptionIndex,
+                            1,
+                            newOption
+                        )
+                    ]
+                };
+                return optionReplaceMiddle;
+            } else if (targetOptionIndex === 0) {
+                const optionReplaceBegin = {
+                    ...question,
+                    options: [
+                        ...question.options.splice(
+                            targetOptionIndex,
+                            1,
+                            newOption
+                        )
+                    ]
+                };
+                return optionReplaceBegin;
+            }
+        }
+        return question;
+    });
+    return editedArr1;
 }
 
 /***
