@@ -14,8 +14,6 @@ export function d6(): number {
 export function TwoDice(): JSX.Element {
     const [leftNum, setLeft] = useState<number>(1);
     const [rightNum, setRight] = useState<number>(6);
-    <span data-testid="left-die"></span>;
-    <span data-testid="right-die"></span>;
     return (
         <div>
             <div>
@@ -26,11 +24,11 @@ export function TwoDice(): JSX.Element {
                 >
                     Roll Left
                 </Button>
-                Left Die: {leftNum}
+                Left Die: <span data-testid="right-die">{rightNum}</span>;
             </div>
             <div>
                 <Button onClick={() => setRight(d6())}>Roll Right</Button>
-                Right Die: {rightNum}
+                Right Die: <span data-testid="left-die">{leftNum}</span>;
             </div>
             <div>
                 {rightNum === 1 && leftNum === 1 ? (
