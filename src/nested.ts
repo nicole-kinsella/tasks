@@ -289,7 +289,10 @@ export function editOption(
     newOption: string
 ): Question[] {
     const deepCopy = questions.map(
-        (question: Question): Question => ({ ...question })
+        (question: Question): Question => ({
+            ...question,
+            options: question.options
+        })
     );
     const editedArr1 = deepCopy.map((question: Question): Question => {
         if (question.id === targetId) {
@@ -299,30 +302,14 @@ export function editOption(
                     options: [...question.options, newOption]
                 };
                 return optionAtEnd;
-            } else if (targetOptionIndex >= 1) {
+            } else if (targetOptionIndex >= 0) {
+                const optionsCopy = [...question.options];
+                optionsCopy.splice(targetOptionIndex, 1, newOption);
                 const optionReplaceMiddle = {
                     ...question,
-                    options: [
-                        ...question.options.splice(
-                            targetOptionIndex,
-                            1,
-                            newOption
-                        )
-                    ]
+                    options: [...optionsCopy]
                 };
                 return optionReplaceMiddle;
-            } else if (targetOptionIndex === 0) {
-                const optionReplaceBegin = {
-                    ...question,
-                    options: [
-                        ...question.options.splice(
-                            targetOptionIndex,
-                            1,
-                            newOption
-                        )
-                    ]
-                };
-                return optionReplaceBegin;
             }
         }
         return question;
